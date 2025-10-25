@@ -1,52 +1,73 @@
-# Wealth Vault - React Frontend
+# React + TypeScript + Vite
 
-[![React](https://img.shields.io/badge/React-18.2-blue?logo=react)](https://reactjs.org) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-blue?logo=tailwind)](https://tailwindcss.com) [![Vercel](https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel)](https://vercel.com)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-A sleek, dark-mode personal wealth tracker built with React. Track bank balances, credit cards, crypto holdings (with real-time prices via CoinGecko), and portfolio income in one dashboard. LocalStorage persistence for offline use—your MVP for financial clarity, starting as a hobby tool and scaling to family-shared subs.
+Currently, two official plugins are available:
 
-![Dark Mode Dashboard Screenshot](https://via.placeholder.com/800x400/1f2937/ffffff?text=Dark+Mode+Wealth+Dashboard+%F0%9F%8C%99) <!-- Replace with your screenshot URL -->
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🚀 Features
-- **Dashboard Overview**: Net worth pie charts, yearly income summaries, and asset allocations (banks, credits, stocks/ETFs, crypto).
-- **Asset Management**: Add/edit/delete with simple forms—date pickers for purchase dates and basic ROI calcs (annualized returns).
-- **Crypto Tracking**: Input ticker + qty; auto-values from live CoinGecko prices (e.g., 0.5 BTC at $65K = $32.5K holding).
-- **Dark Mode Toggle**: Mint-inspired minimalist UI, default dark for late-night checks.
-- **Persistence & Calcs**: LocalStorage saves your data; on-the-fly ROI (e.g., +15% annualized) and income aggregation.
-- **Responsive**: Mobile-first for on-the-go family finance.
+## React Compiler
 
-*Phase 1 MVP—back-end (.NET APIs + Azure SQL) coming for auth, sharing, and real syncs.*
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🛠 Tech Stack
-- **Frontend**: React 18 + Vite (fast dev/build)
-- **State/UI**: Zustand (with persist middleware), Tailwind CSS (dark mode), Recharts (interactive pies/lines)
-- **Utils**: Date-fns (ROI date math), CoinGecko API (free crypto prices)
-- **Hosting**: Vercel (free deploys)
+## Expanding the ESLint configuration
 
-## 📦 Quick Start
-1. **Clone & Install**:
-2. **Run Locally**:
-Open [http://localhost:5173](http://localhost:5173) – add your first asset and watch the magic!
-3. **Build & Deploy**:
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-*Demo*: [Live on Vercel](https://wealth-vault-frontend-react.vercel.app) <!-- Update with your deploy URL -->
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-## 📈 Example Usage
-- Add a bank: Name "Chase Savings", Value $50,000, Yield $200.
-- Add crypto: Ticker "bitcoin", Qty 0.1, Purchase Date "2025-01-01", Purchase Value $3,000.
-- Dashboard auto-updates: Net worth $53,500 (with BTC at current price), ROI +12.5%, Yearly Income $200.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-## 🗺 Roadmap
-- **Phase 2**: .NET Web API back-end with JWT auth, Azure SQL for family sharing.
-- **Phase 3**: Plaid bank syncs, Stripe subs ($4.99/mo for unlimited holdings), AI insights (e.g., "Rebalance ETFs?").
-- **Stretch**: PWA for offline, export to PDF for taxes.
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## 🤝 Contributing
-Fork, branch (`git checkout -b feat/add-stocks`), PR with tests. Issues welcome—let's build passive income from this hobby!
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-## 📄 License
-MIT – Free to fork and fintech-ify.
-
----
-
-*Built by [Dharshan Kesavan](https://github.com/kesavanpotti-dharshan) | Oct 2025 | Inspired by real-world wealth chaos. 💰*
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
