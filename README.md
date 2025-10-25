@@ -24,3 +24,29 @@ A sleek, dark-mode personal wealth tracker built with React. Track bank balances
 
 ## 📦 Quick Start
 1. **Clone & Install**:
+2. **Run Locally**:
+Open [http://localhost:5173](http://localhost:5173) – add your first asset and watch the magic!
+3. **Build & Deploy**:
+
+
+*Demo*: [Live on Vercel](https://wealth-vault-frontend-react.vercel.app) <!-- Update with your deploy URL -->
+
+## 📈 Example Usage
+- Add a bank: Name "Chase Savings", Value $50,000, Yield $200.
+- Add crypto: Ticker "bitcoin", Qty 0.1, Purchase Date "2025-01-01", Purchase Value $3,000.
+- Dashboard auto-updates: Net worth $53,500 (with BTC at current price), ROI +12.5%, Yearly Income $200.
+
+## 🗺 Roadmap
+- **Phase 2**: .NET Web API back-end with JWT auth, Azure SQL for family sharing.
+- **Phase 3**: Plaid bank syncs, Stripe subs ($4.99/mo for unlimited holdings), AI insights (e.g., "Rebalance ETFs?").
+- **Stretch**: PWA for offline, export to PDF for taxes.
+
+## 🤝 Contributing
+Fork, branch (`git checkout -b feat/add-stocks`), PR with tests. Issues welcome—let's build passive income from this hobby!
+
+## 📄 License
+MIT – Free to fork and fintech-ify.
+
+---
+
+*Built by [Your Name](https://github.com/kesavanpotti-dharshan) | Oct 2025 | Inspired by real-world wealth chaos. 💰*
