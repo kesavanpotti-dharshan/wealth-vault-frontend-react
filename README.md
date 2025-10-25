@@ -49,4 +49,4 @@ MIT – Free to fork and fintech-ify.
 
 ---
 
-*Built by [Your Name](https://github.com/kesavanpotti-dharshan) | Oct 2025 | Inspired by real-world wealth chaos. 💰*
+*Built by [Dharshan Kesavan](https://github.com/kesavanpotti-dharshan) | Oct 2025 | Inspired by real-world wealth chaos. 💰*
