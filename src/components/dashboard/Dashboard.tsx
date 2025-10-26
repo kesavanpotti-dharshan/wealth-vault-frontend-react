@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import type { PieLabelRenderProps } from 'recharts';
 import useWealthStore from '../../stores/wealthStore';
 import type { AllocationItem } from '../../types/index';
 
-export const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onEdit: (id: number) => void;
+}
+
+export const Dashboard: React.FC<DashboardProps> = ({ onEdit }) => {
   const { assets, cryptoPrices, getNetWorth, getYearlyIncome, getAllocation, getROI, deleteAsset, loadPrices } = useWealthStore();
 
   useEffect(() => {
@@ -45,8 +50,9 @@ export const Dashboard: React.FC = () => {
                 cx="50%"
                 cy="50%"
                 outerRadius={80}
-                label={(props) => { // Fix: Use correct parameter type
-                  const { name, percent } = props;
+                label={(props: PieLabelRenderProps) => {
+                  const name = String(props.name ?? '');
+                  const percent = typeof props.percent === 'number' ? props.percent : 0;
                   return `${name} ${(percent * 100).toFixed(0)}%`;
                 }}
               >
@@ -99,7 +105,7 @@ export const Dashboard: React.FC = () => {
                   </div>
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => {/* Trigger edit via App state */}}
+                      onClick={() => onEdit(asset.id)}
                       className="text-blue-500 hover:text-blue-700 text-sm"
                     >
                       Edit

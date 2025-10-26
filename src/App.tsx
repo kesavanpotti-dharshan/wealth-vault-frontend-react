@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import useWealthStore from './stores/wealthStore';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { AssetForm } from './components/forms/AssetForm';
@@ -30,12 +30,11 @@ function App() {
           </button>
         </div>
       </header>
-      <Dashboard />
+      <Dashboard onEdit={(id) => { setEditingId(id); setShowForm(true); }} />
       {showForm && (
         <AssetForm
           editingId={editingId}
           onClose={() => setShowForm(false)}
-          onEdit={(id) => setEditingId(id)}
         />
       )}
     </div>
