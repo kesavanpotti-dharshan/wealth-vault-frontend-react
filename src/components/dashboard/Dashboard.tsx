@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import type { PieLabelRenderProps } from 'recharts';
 import useWealthStore from '../../stores/wealthStore';
-import type { AllocationItem } from '../../types/index';
+import type { AllocationItem, AssetType } from '../../types/index';
+import { BanknotesIcon, CreditCardIcon, CurrencyDollarIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 
 interface DashboardProps {
   onEdit: (id: number) => void;
@@ -20,6 +21,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ onEdit }) => {
   const allocationData: AllocationItem[] = getAllocation();
   const netWorth = getNetWorth();
   const yearlyIncome = getYearlyIncome();
+  // Helper component (add to Dashboard or common):
+  const IconByType: React.FC<{ type: AssetType; className?: string }> = ({
+    type,
+    className,
+  }) => {
+    switch (type) {
+      case "bank":
+        return <BanknotesIcon className={className} />;
+      case "credit":
+        return <CreditCardIcon className={className} />;
+      case "crypto":
+        return <CurrencyDollarIcon className={className} />;
+      case "stock":
+        return <ChartBarIcon className={className} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -67,14 +86,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ onEdit }) => {
       )}
 
       {/* Assets List */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded shadow">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
         <h3 className="text-lg font-semibold mb-4">Assets</h3>
         {assets.length === 0 ? (
           <p className="text-gray-500 dark:text-gray-400">No assets yet. Add one to get started!</p>
         ) : (
           <ul className="space-y-2">
             {assets.map((asset) => {
-              const price = cryptoPrices[asset.ticker?.toLowerCase() ?? ''];
+              const price = cryptoPrices[asset.ticker?.toLowerCase() ?? ''];              
               const currentValue = asset.type === 'crypto' || asset.type === 'stock'
                 ? (asset.qty ?? 0) * (price ?? 0)
                 : (asset.value ?? 0);
@@ -86,7 +105,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onEdit }) => {
                   className="p-3 rounded border border-gray-200 dark:border-gray-600 flex justify-between items-center"
                 >
                   <div className="flex-1">
-                    <span className="font-medium">{asset.name} ({asset.type})</span>
+                    <span className="font-medium"><IconByType type={asset.type} className="h-7 w-7 text-gray-400" />
+                    {asset.name} ({asset.type})</span>
                     <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
                       ${currentValue.toLocaleString()}
                     </span>
