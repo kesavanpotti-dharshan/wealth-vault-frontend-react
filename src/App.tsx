@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import useWealthStore from './stores/wealthStore';
+import { Dashboard } from './components/dashboard/Dashboard';
+import { AssetForm } from './components/forms/AssetForm';
+import { DarkModeToggle } from './components/common/DarkModeToggle';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [darkMode, setDarkMode] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const { loadPrices } = useWealthStore();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode);
+    loadPrices();  // Init prices
+  }, [darkMode, loadPrices]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <header className="bg-blue-600 dark:bg-blue-800 text-white p-4 flex justify-between items-center">
+        <h1 className="text-2xl">Wealth Vault</h1>
+        <div className="flex items-center space-x-4">
+          <DarkModeToggle darkMode={darkMode} onToggle={() => setDarkMode(!darkMode)} />
+          <button
+            onClick={() => { setShowForm(true); setEditingId(null); }}
+            className="bg-white dark:bg-gray-700 text-blue-600 dark:text-white px-4 py-2 rounded"
+          >
+            Add Asset
+          </button>
+        </div>
+      </header>
+      <Dashboard />
+      {showForm && (
+        <AssetForm
+          editingId={editingId}
+          onClose={() => setShowForm(false)}
+          onEdit={(id) => setEditingId(id)}
+        />
+      )}
+    </div>
+  );
 }
 
 export default App
