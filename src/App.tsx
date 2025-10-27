@@ -36,9 +36,10 @@ function App() {
                 </svg>
               </div>
               <div className="ml-4">
-                <h1 className="text-2xl font-bold text-white tracking-tight">
+                {/* <h1 className="text-2xl font-bold text-white tracking-tight">
                   Wealth Vault
-                </h1>
+                </h1> */}
+                <h1 className="text-2xl font-bold gradient-text">💰 Wealth Vault</h1>
                 <p className="text-sm text-blue-200 dark:text-blue-300">
                   Track • Analyze • Grow
                 </p>
