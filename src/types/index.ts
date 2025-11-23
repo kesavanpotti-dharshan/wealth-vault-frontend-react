@@ -1,5 +1,5 @@
 export interface Asset {
-  id: number;
+  id: string;
   type: 'bank' | 'credit' | 'crypto' | 'stock';
   name: string;
   value?: number;
